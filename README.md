@@ -49,4 +49,4 @@ This is an open source project that serves as a free alternative to the Linktree
 
 ---
 
-Made with ♥ by John Emerson :wave: [Get in touch](https://johnemerson1406.github.io/linktree)
+## Changes
