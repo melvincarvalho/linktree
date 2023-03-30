@@ -33,6 +33,39 @@
     import { html, render } from './js/spux.js'
     import './js/dior.js'
 
+    function getQueryStringValue(key) {
+      const queryString = window.location.search.substring(1)
+      const queryParams = new URLSearchParams(queryString)
+      return queryParams.get(key)
+    }
+
+    const pubkey =
+      getQueryStringValue('pubkey') ||
+      'de7ecd1e2976a6adb2ffa5f4db81a7d812c8bb6698aa00dcf1e76adb55efd645'
+    console.log('Public key:', pubkey)
+
+    const NOSTR_RELAY_URL = 'wss://nostr-pub.wellorder.net' // Replace with the URL of a Nostr relay
+
+    async function fetchProfile(pubkey) {
+      var wss = new WebSocket(NOSTR_RELAY_URL)
+      var kind = 0
+      var id = 'profile'
+      wss.onopen = function () {
+        let req = `["REQ", "${id}", { "kinds": [${kind}], "authors": ["${pubkey}"] }]`
+
+        console.log('req', req)
+
+        wss.send(JSON.stringify({ type: 'subscribe', pubkey }))
+      }
+
+      wss.onmessage = function (msg) {
+        console.log(msg)
+      }
+    }
+
+    // Example usage
+    fetchProfile(pubkey)
+
     console.log(di.data)
 
     render(
