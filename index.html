@@ -65,6 +65,8 @@
 
         di.data.picture = content.picture || di.data.picture
         di.data.nick = content.display_name || di.data.picture
+        di.data.github = content?.identities?.[0]?.proof
+        di.data.website = content?.website
 
         console.log('picture', di.data.picture)
 
@@ -96,15 +98,22 @@
             <div id="userName">@${di.data.nick}</div>
 
             <div id="links">
-              <a class="link" href="${di.data.github}" target="_blank"
+              ${di.data.website &&
+              html`<a class="link" href="${di.data.website}" target="_blank"
+                ><i class="fab fa-home"> </i>Homepage</a
+              >`}
+              ${di.data.github &&
+              html`<a class="link" href="${di.data.github}" target="_blank"
                 ><i class="fab fa-github"> </i>Github</a
-              >
+              >`}
+              <!--
               <a class="link" href="${di.data.facebook}" target="_blank"
                 ><i class="fab fa-facebook"> </i>Facebook</a
               >
               <a class="link" href="${di.data.twitter}" target="_blank"
                 ><i class="fab fa-twitter"> </i>Twitter</a
               >
+              -->
             </div>
 
             <div id="hashtag">#${di.data.nick}</div>
