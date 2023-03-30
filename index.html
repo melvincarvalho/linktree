@@ -25,7 +25,8 @@
       "github": "https://github.com/melvincarvalho",
       "facebook": "https://www.facebook.com/melvo",
       "twitter": "https://twitter.com/melvincarvalho",
-      "nick": "melvincarvalho"
+      "nick": "melvincarvalho",
+      "picture": "https://avatars.githubusercontent.com/u/65864?v=4"
     }
   </script>
 
@@ -59,7 +60,57 @@
       }
 
       wss.onmessage = function (msg) {
-        console.log(msg)
+        var content = JSON.parse(JSON.parse(msg.data)[2].content)
+        console.log('content', content)
+
+        di.data.picture = content.picture || di.data.picture
+        di.data.nick = content.display_name || di.data.picture
+
+        console.log('picture', di.data.picture)
+
+        render(
+          html`
+            <section class="animated-background">
+              <div id="stars1"></div>
+              <div id="stars2"></div>
+              <div id="stars3"></div>
+            </section>
+
+            <a id="profilePicture" href="#popup">
+              <img src="${di.data.picture}" alt="Profile Picture" />
+            </a>
+
+            <div class="overlay" id="popup">
+              <div class="popup">
+                <div class="popup-photo">
+                  <a href="${di.data.picture}" target="_blank">
+                    <img src="${di.data.picture}" alt="Profile Picture" />
+                  </a>
+                </div>
+                <div class="popup-quote">Thoughts through my eyes.</div>
+
+                <a class="popup-close" onclick="history.back()">X</a>
+              </div>
+            </div>
+
+            <div id="userName">@${di.data.nick}</div>
+
+            <div id="links">
+              <a class="link" href="${di.data.github}" target="_blank"
+                ><i class="fab fa-github"> </i>Github</a
+              >
+              <a class="link" href="${di.data.facebook}" target="_blank"
+                ><i class="fab fa-facebook"> </i>Facebook</a
+              >
+              <a class="link" href="${di.data.twitter}" target="_blank"
+                ><i class="fab fa-twitter"> </i>Twitter</a
+              >
+            </div>
+
+            <div id="hashtag">#${di.data.nick}</div>
+          `,
+          document.body
+        )
       }
     }
 
@@ -67,59 +118,6 @@
     fetchProfile(pubkey)
 
     console.log(di.data)
-
-    render(
-      html`
-        <section class="animated-background">
-          <div id="stars1"></div>
-          <div id="stars2"></div>
-          <div id="stars3"></div>
-        </section>
-
-        <a id="profilePicture" href="#popup">
-          <img
-            src="https://avatars.githubusercontent.com/u/65864?v=4"
-            alt="Profile Picture"
-          />
-        </a>
-
-        <div class="overlay" id="popup">
-          <div class="popup">
-            <div class="popup-photo">
-              <a
-                href="https://avatars.githubusercontent.com/u/65864?v=4"
-                target="_blank"
-              >
-                <img
-                  src="https://avatars.githubusercontent.com/u/65864?v=4"
-                  alt="Profile Picture"
-                />
-              </a>
-            </div>
-            <div class="popup-quote">Thoughts through my eyes.</div>
-
-            <a class="popup-close" onclick="history.back()">&times;</a>
-          </div>
-        </div>
-
-        <div id="userName">@${di.data.nick}</div>
-
-        <div id="links">
-          <a class="link" href="${di.data.github}" target="_blank"
-            ><i class="fab fa-github"> </i>Github</a
-          >
-          <a class="link" href="${di.data.facebook}" target="_blank"
-            ><i class="fab fa-facebook"> </i>Facebook</a
-          >
-          <a class="link" href="${di.data.twitter}" target="_blank"
-            ><i class="fab fa-twitter"> </i>Twitter</a
-          >
-        </div>
-
-        <div id="hashtag">#${di.data.nick}</div>
-      `,
-      document.body
-    )
   </script>
 
   <body></body>
