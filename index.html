@@ -55,7 +55,7 @@
 
         console.log('req', req)
 
-        wss.send(JSON.stringify({ type: 'subscribe', pubkey }))
+        wss.send(req)
       }
 
       wss.onmessage = function (msg) {
