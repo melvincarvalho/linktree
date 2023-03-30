@@ -63,10 +63,11 @@
         var content = JSON.parse(JSON.parse(msg.data)[2].content)
         console.log('content', content)
 
-        di.data.picture = content.picture || di.data.picture
-        di.data.nick = content.display_name || di.data.picture
+        di.data.picture = content?.picture || di.data.picture
+        di.data.nick = content?.display_name || di.data.picture
         di.data.github = content?.identities?.[0]?.proof
         di.data.website = content?.website
+        di.data.about = content?.about
 
         console.log('picture', di.data.picture)
 
@@ -89,7 +90,7 @@
                     <img src="${di.data.picture}" alt="Profile Picture" />
                   </a>
                 </div>
-                <div class="popup-quote">Thoughts through my eyes.</div>
+                <div class="popup-quote">${di.data.about}</div>
 
                 <a class="popup-close" onclick="history.back()">X</a>
               </div>
